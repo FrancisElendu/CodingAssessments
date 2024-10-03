@@ -1,0 +1,6 @@
+RecordID|StoreName|StoreLocation
+12|Target|Dallas
+25|Walmart|Plano
+37|Kroger|Irving
+49|JCPenny|Frisco
+
