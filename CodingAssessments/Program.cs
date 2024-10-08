@@ -7,7 +7,7 @@ public class Program
 {
     public static int BinarySearch(int[] array, int target)
     {
-
+        //{ 1, 3, 5, 9, 11, 10, 4, 7, 13, 15 }; example of an array of integer to look through to get the target
         Array.Sort(array);
         int startLeftRange = 0;
         int endRightRange = array.Length - 1;
@@ -71,15 +71,19 @@ public class Program
     }
     public static int CountPairsWithDifferenceK(int[] arr, int k)
     {
+        // { 1, 5, 3, 4, 2 };
+        //int k = 2;
         int modulos = 1000000007;
-        HashSet<int> numSet = new HashSet<int>(arr);
-        List<int> list = new List<int>();
-        list.AddRange(arr);
+        //HashSet<int> numSet = new HashSet<int>(arr);
+        //List<int> list = new List<int>();
+        List<int> list = arr.ToList();
+        //list.AddRange(arr);
 
         int count = 0;
         foreach (int item in arr)
         {
-            if(numSet.Contains(item - k))
+            if (list.Contains(item - k))
+                //if (numSet.Contains(item - k))
             {
                 count++;
             }
@@ -89,6 +93,8 @@ public class Program
     }
     public static int CompareVersion(string version1, string version2)
     {
+        //string version1 = "1.2.3";
+        //string version2 = "1.2.4";
         string[] strings1 = version1.Split('.');
         string[] strings2 = version2.Split(".");
 
@@ -206,7 +212,7 @@ public class Program
         //    return FibonacciSeries2(n - 1) + FibonacciSeries2(n - 2);
 
         var numList = new List<int>();
-        for (int i = 0; i <= n; i++)
+        for (int i = 0; i < n; i++)
         {
             numList.Add(Fibonacci(i));
         }
@@ -305,6 +311,7 @@ public class Program
     }
     public static string[] SwapStringArrayAsc(string[] array)
     {
+        //string[] stringArray = { "Banana", "Apple", "Orange", "Mango", "Grapes" };
         for (int i = 0; i < array.Length - 1; i++)
         {
             for (int j = 0; j < array.Length - 1 - i; j++)
@@ -312,26 +319,61 @@ public class Program
                 // Compare adjacent elements and swap if they are in the wrong order
                 if (string.Compare(array[j], array[j + 1]) > 0)
                 {
-                    string temp = array[j];
-                    array[j] = array[j + 1];
-                    array[j + 1] = temp;
+                    //string temp = array[j];
+                    //array[j] = array[j + 1];
+                    //array[j + 1] = temp;
+                    (array[j], array[j + 1]) = (array[j + 1], array[j]);
                 }
             }
         }
         return array; 
     }
+
+    public static List<string> SwapStringArrayAsc2(string[] array)
+    {
+        var list = array.ToList();
+        return list.OrderBy(x => x).ToList();
+    }
+
+    public static string[] SwapStringArrayDsc(string[] array)
+    {
+        //string[] stringArray = { "Banana", "Apple", "Orange", "Mango", "Grapes" };
+        for (int i = 0; i < array.Length - 1; i++)
+        {
+            var limit = array.Length - 1;
+            for (int j = 0; j < limit; j++)
+            {
+                // Compare adjacent elements and swap if they are in the wrong order
+                if (string.Compare(array[j], array[j + 1]) < 0)
+                {
+                    //string temp = array[j];
+                    //array[j] = array[j + 1];
+                    //array[j + 1] = temp;
+                    (array[j], array[j + 1]) = (array[j + 1], array[j]);
+                }
+            }
+        }
+        return array;
+    }
+
+    public static List<string> SwapStringArrayDsc2(string[] array)
+    {
+        var list = array.ToList();
+        return list.OrderByDescending(x => x).ToList();
+    }
     public static int[] SwappArrayASC(int[] array)
     {
-        int temp;
+        //int temp;
         for (int j = 0; j < array.Length - 1; j++)
         {
             for(int i = 0; i < array.Length - 1; i++)
             {
                 if (array[i] > array[i + 1])
                 {
-                    temp = array[i];
-                    array[i] = array[i + 1];
-                    array[i + 1] = temp;
+                    //string temp = array[j];
+                    //array[j] = array[j + 1];
+                    //array[j + 1] = temp;
+                    (array[j], array[j + 1]) = (array[j + 1], array[j]);
                 }
             }
         }
@@ -339,16 +381,17 @@ public class Program
     }
     public static int[] SwappArrayDSC(int[] array)
     {
-        int temp;
+        //int temp;
         for (int j = 0; j < array.Length - 1; j++)
         {
             for (int i = 0; i < array.Length - 1; i++)
             {
                 if (array[i] < array[i + 1])
                 {
-                    temp = array[i];
-                    array[i] = array[i + 1];
-                    array[i + 1] = temp;
+                    //string temp = array[j];
+                    //array[j] = array[j + 1];
+                    //array[j + 1] = temp;
+                    (array[j], array[j + 1]) = (array[j + 1], array[j]);
                 }
             }
         }
@@ -599,10 +642,10 @@ public class Program
         //Console.WriteLine($"Number of nodes in the n-ary tree: {nodeCount}");
 
         //-----------------------------------------------------
-        //int[] sortedArray = { 1, 3, 5, 9, 11, 10, 4, 7, 13, 15 };
+        //int[] givenArray = { 1, 3, 5, 9, 11, 10, 4, 7, 13, 15 };
         //int target = 13;
 
-        //int index = BinarySearch(sortedArray, target);
+        //int index = BinarySearch(givenArray, target);
 
         //if (index != -1)
         //{
@@ -730,6 +773,13 @@ public class Program
         //{
         //    Console.WriteLine(item);
         //}
+
+        string[] stringArray = { "Banana", "Apple", "Orange", "Mango", "Grapes" };
+        var sortedStringDSC = SwapStringArrayDsc2(stringArray);
+        foreach (string item in sortedStringDSC)
+        {
+            Console.WriteLine(item);
+        }
         //-----------------------------------------------------
 
         //string version1 = "1.2.3";
@@ -768,7 +818,7 @@ public class Program
         //Console.WriteLine("Fibonacci Sequence:");
 
         //// Generate the first 10 Fibonacci numbers
-        //foreach (var number in GenerateFibonacciSequence(10))
+        //foreach (var number in GenerateFibonacciSequence(7))
         //{
         //    Console.Write(number + " ");
         //}
