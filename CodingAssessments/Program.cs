@@ -1,6 +1,4 @@
 ﻿using CodingAssessments;
-using System.Collections;
-using System.Xml.Linq;
 //using static System.Runtime.InteropServices.JavaScript.JSType;
 
 public class Program
@@ -83,7 +81,7 @@ public class Program
         foreach (int item in arr)
         {
             if (list.Contains(item - k))
-                //if (numSet.Contains(item - k))
+            //if (numSet.Contains(item - k))
             {
                 count++;
             }
@@ -109,7 +107,7 @@ public class Program
             {
                 return -1;
             }
-            if(string1Part > string2Part) 
+            if (string1Part > string2Part)
             {
                 return 1;
             }
@@ -175,21 +173,21 @@ public class Program
     public static List<int> FibonacciSeries(int input)
     {
         int firstNumber = 0;
-        int secondNumber = 1;   
+        int secondNumber = 1;
         int sum = 0;
         var numList = new List<int>();
 
         for (int i = 0; i <= input; i++)
         {
-            sum = firstNumber + secondNumber;   
-            if( sum== 1 && firstNumber == 0)
+            sum = firstNumber + secondNumber;
+            if (sum == 1 && firstNumber == 0)
             {
                 numList.Add(sum);
                 numList.Add(secondNumber);
                 firstNumber = secondNumber;
                 secondNumber = sum;
             }
-            else if(sum == 2 && secondNumber == 1)
+            else if (sum == 2 && secondNumber == 1)
             {
                 numList.Add(sum);
                 firstNumber = secondNumber;
@@ -199,7 +197,7 @@ public class Program
             {
                 firstNumber = secondNumber;
                 secondNumber = sum;
-                numList.Add(sum);   
+                numList.Add(sum);
             }
         }
         return numList;
@@ -253,11 +251,7 @@ public class Program
         if (number == 0)
             return 1;
         double factorial = 1;
-        //for (int i = 1; i <= number; i++)
-        //{
-        //    factorial = factorial * i;
-        //}
-        for (int i = number; i >= 1; i--)
+        for (int i = 1; i <= number; i++)
         {
             factorial = factorial * i;
         }
@@ -294,10 +288,10 @@ public class Program
     }
     public static List<int> EvenNumberListing(int startInteger, int stopInteger)
     {
-        var numberList = new List<int>();   
+        var numberList = new List<int>();
         numberList.AddRange(Enumerable.Range(startInteger, stopInteger));
 
-        var evenNumbers = numberList.Where(x=>x % 2 == 0).ToList();
+        var evenNumbers = numberList.Where(x => x % 2 == 0).ToList();
         return evenNumbers;
     }
     public static List<int> OddNumberListing(int startInteger, int stopInteger)
@@ -311,10 +305,11 @@ public class Program
     }
     public static string[] SwapStringArrayAsc(string[] array)
     {
+        var limit = array.Length - 1;
         //string[] stringArray = { "Banana", "Apple", "Orange", "Mango", "Grapes" };
-        for (int i = 0; i < array.Length - 1; i++)
+        for (int i = 0; i < limit; i++)
         {
-            for (int j = 0; j < array.Length - 1 - i; j++)
+            for (int j = 0; j < limit; j++)
             {
                 // Compare adjacent elements and swap if they are in the wrong order
                 if (string.Compare(array[j], array[j + 1]) > 0)
@@ -326,21 +321,23 @@ public class Program
                 }
             }
         }
-        return array; 
+        return array;
     }
 
     public static List<string> SwapStringArrayAsc2(string[] array)
     {
-        var list = array.ToList();
-        return list.OrderBy(x => x).ToList();
+        //var list = array.ToList();
+        //return list.OrderBy(x => x).ToList();
+        return array.OrderBy(x => x).ToList();
     }
 
     public static string[] SwapStringArrayDsc(string[] array)
     {
+        var limit = array.Length - 1;
         //string[] stringArray = { "Banana", "Apple", "Orange", "Mango", "Grapes" };
-        for (int i = 0; i < array.Length - 1; i++)
+        for (int i = 0; i < limit; i++)
         {
-            var limit = array.Length - 1;
+            
             for (int j = 0; j < limit; j++)
             {
                 // Compare adjacent elements and swap if they are in the wrong order
@@ -358,15 +355,16 @@ public class Program
 
     public static List<string> SwapStringArrayDsc2(string[] array)
     {
-        var list = array.ToList();
-        return list.OrderByDescending(x => x).ToList();
+        //var list = array.ToList();
+        //return list.OrderByDescending(x => x).ToList();
+        return array.OrderByDescending(x => x).ToList();
     }
     public static int[] SwappArrayASC(int[] array)
     {
         //int temp;
         for (int j = 0; j < array.Length - 1; j++)
         {
-            for(int i = 0; i < array.Length - 1; i++)
+            for (int i = 0; i < array.Length - 1; i++)
             {
                 if (array[i] > array[i + 1])
                 {
@@ -407,37 +405,60 @@ public class Program
     }
     public static List<string> ExtractAndCompare(string firstString, string secondString)
     {
+        //string firstString = "I am using my hackerrank to improve my programming";
+        //string secondString = "am my hackerrank to improve";
         List<string> firstStringList = firstString.Split(' ').ToList();
         List<string> secondStringList = secondString.Split(' ').ToList();
-        List<string> resultStringDetail = new List<string>();
-
-        foreach (var item in firstStringList)
+        foreach (var item in secondStringList)
         {
-            if (secondStringList.Contains(item))
+            if (firstStringList.Contains(item))
             {
-                secondStringList.Remove(item);
-            }
-            else
-            {
-                resultStringDetail.Add(item);
+                firstStringList.Remove(item);
             }
         }
-        return resultStringDetail;
+        return firstStringList;
+
     }
-    public static List<string> ReverseEachWord(string word)
+
+    public static List<string> ReverseWordPositionInAString(string word)
     {
-        List<string> stringListToReverse = word.Split(' ').ToList();
-
-        var result = stringListToReverse.Select(x=> new string(x.Reverse().ToArray())).ToList();
-
-        return result;
+        //var stringToReverse = "I am using my hackerrank to improve my programming";
+        var stringListToReverse2 = word.Split(' ').ToArray();
+        List<string> reversedResult = new List<string>();
+        foreach (var item in stringListToReverse2.Reverse())
+        {
+            if (item != null)
+            {
+                reversedResult.Add(item);
+            }
+        }
+        return reversedResult;
     }
     public static List<string> ReverseWordInAString(string word)
     {
         List<string> stringListToReverse = word.Split(' ').ToList();
 
-        var res = stringListToReverse.AsEnumerable().Reverse().ToList();
-        return res;
+        var result = stringListToReverse.Select(x => new string(x.Reverse().ToArray())).ToList();
+
+        return result;
+    }
+    public static List<string> ReverseWordInAString2(string word)
+    {
+        //var stringToReverse = "I am using my hackerrank to improve my programming";
+        //List<string> stringListToReverse = word.Split(' ').ToList();
+        var stringListToReverse2 = word.Split(' ').ToArray();
+        List<string> reversedResult = new List<string>();
+        foreach(var item in stringListToReverse2)
+        {
+            if(item != null)
+            {
+                var res2 = item.Reverse();
+                reversedResult.Add(string.Concat(res2));
+            }
+        }
+        return reversedResult;
+        //var res = stringListToReverse.AsEnumerable().Reverse().ToList();
+        //return res;
         //List<string> reversedResult = new List<string>();
 
         //for (int i = stringListToReverse.Count -1; i>=0; i--)
@@ -451,7 +472,7 @@ public class Program
         string result = string.Empty;
         if (word != null)
         {
-            for (int i = word.Length-1; i>=0; i--)
+            for (int i = word.Length - 1; i >= 0; i--)
             {
                 result += word[i].ToString();
             }
@@ -462,16 +483,16 @@ public class Program
     {
         var result = new List<MyStore>();
 
-        using(StreamReader theReader = new StreamReader(@"C:\Users\elcfr\OneDrive\Desktop\2024 Interviews\2024CodingAssessements\CodingAssessments\CodingAssessments\StoreList.txt"))
+        using (StreamReader theReader = new StreamReader(@"C:\Users\elcfr\OneDrive\Desktop\2024 Interviews\2024CodingAssessements\CodingAssessments\CodingAssessments\StoreList.txt"))
         {
             theReader.ReadLine();
-            while(!theReader.EndOfStream)
+            while (!theReader.EndOfStream)
             {
                 string? line = theReader.ReadLine();
                 if (string.IsNullOrWhiteSpace(line))
                     continue;
 
-                string[] splitLine = line.Split( '|');
+                string[] splitLine = line.Split('|');
 
                 //if (splitLine.Length <3)
                 //    continue;
@@ -504,14 +525,17 @@ public class Program
     }
     public static string RemoveDuplicateCharacters2(string input)
     {
-        //string[] words = input.Split(' ');
-        //string result = string.Empty;
-        //string cleanedString = string.Empty;
-        //var groupedCharacters = input.GroupBy(c => c)
-        //                             .Where(g => g.Count() == 1)
-        //                             .Select(g => g.Key);
-        //return new string(groupedCharacters.ToArray());
+        string[] words = input.Split(' ');
+        string result = string.Empty;
+        string cleanedString = string.Empty;
+        var groupedCharacters = input.GroupBy(c => c)
+                                     .Where(g => g.Count() == 1)
+                                     .Select(g => g.Key);
+        var res = string.Concat(groupedCharacters);
 
+        res = res.Equals(input) ? "No duplicate found" : res;
+
+        return res;
 
         //var groups = input.GroupBy(c => c);
         //foreach (var group in groups)
@@ -531,23 +555,23 @@ public class Program
 
         //HashSet<char> seenCharacters = new HashSet<char>();
 
-        List<char> seenCharacters = new List<char>();
-        List<char> distinctChars = new List<char>();
+        //List<char> seenCharacters = new List<char>();
+        //List<char> distinctChars = new List<char>();
 
-        foreach (char c in input)
-        {
-            if (!seenCharacters.Contains(c))
-            {
-                seenCharacters.Add(c);
-                distinctChars.Add(c);
-            }
-            else
-            {
-                distinctChars.Remove(c);
-            }
-        }
+        //foreach (char c in input)
+        //{
+        //    if (!seenCharacters.Contains(c))
+        //    {
+        //        seenCharacters.Add(c);
+        //        distinctChars.Add(c);
+        //    }
+        //    else
+        //    {
+        //        distinctChars.Remove(c);
+        //    }
+        //}
 
-        return new string(distinctChars.ToArray());
+        //return new string(distinctChars.ToArray());
     }
     public static int[] MergeTwoArrays(int[] arr1, int[] arr2)
     {
@@ -682,13 +706,15 @@ public class Program
         //}
 
         //-----------------------------------------------------
-        //string input = "remove duplicates";
-        //var result = RemoveDuplicateCharacters2(input);
-        ////Console.WriteLine(result.ToString());
-        //foreach (char word in result)
-        //{
-        //    Console.Write($"{word} ");
-        //}
+        string input = "remove duplicates";
+        string input2 = "remove";
+        string input3 = "duplicates";
+        var result = RemoveDuplicateCharacters2(input3);
+        //Console.WriteLine(result.ToString());
+        foreach (char word in result)
+        {
+            Console.Write($"{word} ");
+        }
 
         //-----------------------------------------------------
 
@@ -710,18 +736,25 @@ public class Program
         //var singleString = "programming";
         //var singleString2 = "remove";
 
-        //var reversedString = ReverseEachWord(singleString2);
+        //var reversedString = ReverseWordInAString(stringToReverse);
         //foreach (string str in reversedString)
         //{
         //    Console.Write($"{str} ");
         //}
-
-        //var reversedWord = ReverseWordInAString(stringToReverse);
+        //Console.WriteLine();
+        //var reversedWord = ReverseWordInAString2(stringToReverse);
         //foreach (string str in reversedWord)
         //{
         //    Console.Write($"{str} ");
         //}
 
+        //Console.WriteLine();
+        //var reversedWordPosition = ReverseWordPositionInAString(stringToReverse);
+        //foreach (string str in reversedWordPosition)
+        //{
+        //    Console.Write($"{str} ");
+        //}
+        
         //var reversedString = ReverseAString(singleString);
 
         //Console.WriteLine($"{reversedString}");
@@ -774,12 +807,12 @@ public class Program
         //    Console.WriteLine(item);
         //}
 
-        string[] stringArray = { "Banana", "Apple", "Orange", "Mango", "Grapes" };
-        var sortedStringDSC = SwapStringArrayDsc2(stringArray);
-        foreach (string item in sortedStringDSC)
-        {
-            Console.WriteLine(item);
-        }
+        //string[] stringArray = { "Banana", "Apple", "Orange", "Mango", "Grapes" };
+        //var sortedStringDSC = SwapStringArrayDsc2(stringArray);
+        //foreach (string item in sortedStringDSC)
+        //{
+        //    Console.WriteLine(item);
+        //}
         //-----------------------------------------------------
 
         //string version1 = "1.2.3";
