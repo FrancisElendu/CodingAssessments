@@ -1,8 +1,43 @@
 ﻿using CodingAssessments;
+using System.Collections.Generic;
+using System.Linq;
+using System;
 //using static System.Runtime.InteropServices.JavaScript.JSType;
 
 public class Program
 {
+    public static List<string> anagram()
+    {
+
+        // Read the number of words
+        int n = int.Parse(Console.ReadLine());
+
+        // Dictionary to store sorted-word as key and the list of anagrams as values
+        var anagramGroups = new Dictionary<string, List<string>>();
+
+        // Reading the words and grouping them by their sorted characters
+        for (int i = 0; i < n; i++)
+        {
+            string word = Console.ReadLine();
+            // Sort the characters in the word to get the anagram signature
+            string sortedWord = String.Concat(word.OrderBy(c => c));
+
+            // If this signature is already in the dictionary, add the word to its group
+            if (!anagramGroups.ContainsKey(sortedWord))
+            {
+                anagramGroups[sortedWord] = new List<string>();
+            }
+            anagramGroups[sortedWord].Add(word);
+        }
+
+        // Prepare the result: sort each group and sort the groups by the first word in each group
+        var result = anagramGroups
+            .Select(group => group.Value.OrderBy(w => w).ToList()) // Sort each anagram group alphabetically
+            .OrderBy(group => group.First())  // Sort the groups based on the first word
+            .ToList();
+
+        return result;
+    }
     public static int BinarySearch(int[] array, int target)
     {
         //{ 1, 3, 5, 9, 11, 10, 4, 7, 13, 15 }; example of an array of integer to look through to get the target
@@ -525,17 +560,17 @@ public class Program
     }
     public static string RemoveDuplicateCharacters2(string input)
     {
-        string[] words = input.Split(' ');
-        string result = string.Empty;
-        string cleanedString = string.Empty;
-        var groupedCharacters = input.GroupBy(c => c)
-                                     .Where(g => g.Count() == 1)
-                                     .Select(g => g.Key);
-        var res = string.Concat(groupedCharacters);
+        //string[] words = input.Split(' ');
+        //string result = string.Empty;
+        //string cleanedString = string.Empty;
+        //var groupedCharacters = input.GroupBy(c => c)
+        //                             .Where(g => g.Count() == 1)
+        //                             .Select(g => g.Key);
+        //var res = string.Concat(groupedCharacters);
 
-        res = res.Equals(input) ? "No duplicate found" : res;
+        //res = res.Equals(input) ? "No duplicate found" : res;
 
-        return res;
+        //return res;
 
         //var groups = input.GroupBy(c => c);
         //foreach (var group in groups)
@@ -555,22 +590,22 @@ public class Program
 
         //HashSet<char> seenCharacters = new HashSet<char>();
 
-        //List<char> seenCharacters = new List<char>();
-        //List<char> distinctChars = new List<char>();
+        List<char> seenCharacters = new List<char>();
+        List<char> distinctChars = new List<char>();
 
-        //foreach (char c in input)
-        //{
-        //    if (!seenCharacters.Contains(c))
-        //    {
-        //        seenCharacters.Add(c);
-        //        distinctChars.Add(c);
-        //    }
-        //    else
-        //    {
-        //        distinctChars.Remove(c);
-        //    }
-        //}
-
+        foreach (char c in input)
+        {
+            if (!seenCharacters.Contains(c))
+            {
+                seenCharacters.Add(c);
+                distinctChars.Add(c);
+            }
+            else
+            {
+                distinctChars.Remove(c);
+            }
+        }
+        return string.Concat(distinctChars);
         //return new string(distinctChars.ToArray());
     }
     public static int[] MergeTwoArrays(int[] arr1, int[] arr2)
@@ -583,6 +618,13 @@ public class Program
     public static void Main(string[] args)
     {
 
+        //anagram solution
+        var result = anagram();
+        // Output the result
+        foreach (var group in result)
+        {
+            Console.WriteLine(string.Join(" ", group));
+        }
 
 
         //// Create a sample binary tree
@@ -706,15 +748,15 @@ public class Program
         //}
 
         //-----------------------------------------------------
-        string input = "remove duplicates";
-        string input2 = "remove";
-        string input3 = "duplicates";
-        var result = RemoveDuplicateCharacters2(input3);
-        //Console.WriteLine(result.ToString());
-        foreach (char word in result)
-        {
-            Console.Write($"{word} ");
-        }
+        //string input = "remove duplicates";
+        //string input2 = "remove";
+        //string input3 = "duplicates";
+        //var result = RemoveDuplicateCharacters2(input);
+        ////Console.WriteLine(result.ToString());
+        //foreach (char word in result)
+        //{
+        //    Console.Write($"{word} ");
+        //}
 
         //-----------------------------------------------------
 
