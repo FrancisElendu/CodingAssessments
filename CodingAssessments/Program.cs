@@ -4,8 +4,8 @@
 public class Program
 {
 
-    //public static List<int> ElementFrequency(int[] arry, int k)
-    public static IEnumerable<KeyValuePair<int, int>> ElementFrequency(int[] arry, int k)
+    public static List<int> ElementFrequency(int[] arry, int k)
+    //public static IEnumerable<KeyValuePair<int, int>> ElementFrequency(int[] arry, int k)
     {
         // Step 1: Count the frequency of each element using a dictionary
         var holdFrequency = new Dictionary<int, int>();
@@ -19,17 +19,17 @@ public class Program
         }
 
         // Order by frequency in descending order, then by element value in descending order
-        //var result = holdFrequency
-        //    .OrderByDescending(x => x.Value)
-        //    .ThenByDescending(x => x.Key)
-        //    .Take(k)
-        //    .Select(x => x.Key)
-        //    .ToList();
-
         var result = holdFrequency
             .OrderByDescending(x => x.Value)
             .ThenByDescending(x => x.Key)
-            .Take(k);
+            .Take(k)
+            .Select(x => x.Key)
+            .ToList();
+
+        //var result = holdFrequency
+        //    .OrderByDescending(x => x.Value)
+        //    .ThenByDescending(x => x.Key)
+        //    .Take(k);
 
         return result;
 
@@ -666,8 +666,8 @@ public class Program
         //topFrequentElements.ForEach(Console.WriteLine);
         foreach (var element in topFrequentElements)
         {
-            //Console.WriteLine(element);
-            Console.WriteLine($"Element: {element.Key}, Frequency: {element.Value}");
+            Console.WriteLine(element);
+            //Console.WriteLine($"Element: {element.Key}, Frequency: {element.Value}");
         }
 
         //======================================================
