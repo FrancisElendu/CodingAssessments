@@ -1,12 +1,41 @@
 ﻿using CodingAssessments;
-using System.Collections.Generic;
-using System.Linq;
-using System;
-//using static System.Runtime.InteropServices.JavaScript.JSType;
+
 
 public class Program
 {
-    public static List<string> anagram()
+
+    //public static List<int> ElementFrequency(int[] arry, int k)
+    public static IEnumerable<KeyValuePair<int, int>> ElementFrequency(int[] arry, int k)
+    {
+        // Step 1: Count the frequency of each element using a dictionary
+        var holdFrequency = new Dictionary<int, int>();
+
+        foreach (var item in arry)
+        {
+            if (holdFrequency.ContainsKey(item))
+                holdFrequency[item]++;
+            else
+                holdFrequency[item] = 1;
+        }
+
+        // Order by frequency in descending order, then by element value in descending order
+        //var result = holdFrequency
+        //    .OrderByDescending(x => x.Value)
+        //    .ThenByDescending(x => x.Key)
+        //    .Take(k)
+        //    .Select(x => x.Key)
+        //    .ToList();
+
+        var result = holdFrequency
+            .OrderByDescending(x => x.Value)
+            .ThenByDescending(x => x.Key)
+            .Take(k);
+
+        return result;
+
+
+    }
+    public static List<List<string>> anagram()
     {
 
         // Read the number of words
@@ -372,7 +401,7 @@ public class Program
         //string[] stringArray = { "Banana", "Apple", "Orange", "Mango", "Grapes" };
         for (int i = 0; i < limit; i++)
         {
-            
+
             for (int j = 0; j < limit; j++)
             {
                 // Compare adjacent elements and swap if they are in the wrong order
@@ -483,9 +512,9 @@ public class Program
         //List<string> stringListToReverse = word.Split(' ').ToList();
         var stringListToReverse2 = word.Split(' ').ToArray();
         List<string> reversedResult = new List<string>();
-        foreach(var item in stringListToReverse2)
+        foreach (var item in stringListToReverse2)
         {
-            if(item != null)
+            if (item != null)
             {
                 var res2 = item.Reverse();
                 reversedResult.Add(string.Concat(res2));
@@ -617,16 +646,40 @@ public class Program
 
     public static void Main(string[] args)
     {
+        // Input values
+        Console.Write("Enter the number of elements: ");
+        int n = int.Parse(Console.ReadLine());
+        int[] nums = new int[n];
 
-        //anagram solution
-        var result = anagram();
-        // Output the result
-        foreach (var group in result)
+        Console.WriteLine("Enter each element");
+        for (int i = 0; i < n; i++)
         {
-            Console.WriteLine(string.Join(" ", group));
+            nums[i] = int.Parse(Console.ReadLine());
         }
 
+        Console.Write("Enter the value of the most frequent elements you want returned ");
+        int k = int.Parse(Console.ReadLine());
 
+        // Get the top K frequent elements
+        var topFrequentElements = ElementFrequency(nums, k);
+        Console.WriteLine($"Top {k} frequent elements are:");
+        //topFrequentElements.ForEach(Console.WriteLine);
+        foreach (var element in topFrequentElements)
+        {
+            //Console.WriteLine(element);
+            Console.WriteLine($"Element: {element.Key}, Frequency: {element.Value}");
+        }
+
+        //======================================================
+        ////anagram solution
+        //var result = anagram();
+        //// Output the result
+        //foreach (var group in result)
+        //{
+        //    Console.WriteLine(string.Join(" ", group));
+        //}
+
+        //=========================================================
         //// Create a sample binary tree
         ////TreeNode root = new TreeNode(1);
         ////root.Left = new TreeNode(2);
@@ -796,7 +849,7 @@ public class Program
         //{
         //    Console.Write($"{str} ");
         //}
-        
+
         //var reversedString = ReverseAString(singleString);
 
         //Console.WriteLine($"{reversedString}");
