@@ -1,16 +1,181 @@
 ﻿using CodingAssessments;
 
 
-public class Program
+public static class Program
 {
+    public static char MostOcurrencesInArray(string text)
+    {
+        var charCounts = new Dictionary<char, int>();
+        foreach (char c in text)
+        {
 
-    public static List<int> ElementFrequency(int[] arry, int k)
+            if (charCounts.ContainsKey(c))
+                charCounts[c]++;
+            else charCounts[c] = 1;
+        }
+        char mostCommonChar = '\0';
+        int maxCount = 0;
+
+        foreach (var pair in charCounts)
+        {
+            if (pair.Value > maxCount)
+            {
+                maxCount = pair.Value;
+                mostCommonChar = pair.Key;
+            }
+        }
+        return mostCommonChar;
+    }
+    public static int[] RemoveNumbersGreaterOrEqualToOneInAListOfNumber(int[] numbers)
+    {
+        var numbersNotGreaterOrEqualToOneInAListOfNumber = numbers.Where(x => x < 1).ToArray();
+        return numbersNotGreaterOrEqualToOneInAListOfNumber;
+    }
+    public static int[] FindNumbersGreaterOrEqualToOneInAListOfNumber(int[] numbers)
+    {
+        var greaterThanOrEqualToOne = numbers.Where(x => x >= 1).ToArray();
+
+        return greaterThanOrEqualToOne;
+    }
+    public static int FindSmallestNumber(int[] arry)
+    {
+        var smallestNumber = arry[0];
+        foreach (var number in arry)
+        {
+            if (number < smallestNumber)
+            {
+                smallestNumber = number;
+            }
+        }
+        return smallestNumber;
+    }
+    public static int FindGreatestNumber(int[] arry)
+    {
+        var smallestNumber = arry[0];
+        foreach (var number in arry)
+        {
+            if (number > smallestNumber)
+            {
+                smallestNumber = number;
+            }
+        }
+        return smallestNumber;
+    }
+    public static void getCombination(string inputValue)
+    {
+        Dictionary<int, char> letterMap = new Dictionary<int, char>();
+        var validCombinations = new List<string>();
+        var validResult = new List<string>();
+        InitializeLetterMap();
+
+        FindCombinations(inputValue, 0, "", validCombinations);
+
+        foreach (var combination in validCombinations)
+        {
+            string result = string.Empty;
+            string[] stringArray = combination.Split(',');
+            foreach (var letter in stringArray)
+            {
+                result += letterMap[int.Parse(letter)];
+            }
+            validResult.Add(result);
+        }
+
+        foreach (var item in validResult)
+        {
+            Console.WriteLine(item);
+        }
+        Console.Read();
+        static void FindCombinations(string str, int index, string currentCombination, List<string> combinations)
+        {
+            if (index == str.Length)
+            {
+                // Remove the last comma if it exists
+                if (currentCombination.EndsWith(","))
+                {
+                    currentCombination = currentCombination.TrimEnd(',');
+                }
+                combinations.Add(currentCombination);
+                return;
+            }
+
+            for (int length = 1; length <= 2; length++)
+            {
+                if (index + length <= str.Length)
+                {
+                    string part = str.Substring(index, length);
+                    if (int.TryParse(part, out int number) && number <= 26)
+                    {
+                        // Add part to the current combination
+                        FindCombinations(str, index + length, currentCombination + part + ",", combinations);
+                    }
+                }
+            }
+        }
+
+        void InitializeLetterMap()
+        {
+            for (int i = 1; i <= 26; i++)
+            {
+                letterMap[i] = (char)(i + 'a' - 1);
+            }
+        }
+    }
+
+    //public static List<int> ElementFrequency(int[] arry, int k)
+    ////public static IEnumerable<KeyValuePair<int, int>> ElementFrequency(int[] arry, int k)
+    //{
+    //    // Step 1: Count the frequency of each element using a dictionary
+    //    var holdFrequency = new Dictionary<int, int>();
+
+    //    foreach (var item in arry)
+    //    {
+    //        if (holdFrequency.ContainsKey(item))
+    //            holdFrequency[item]++;
+    //        else
+    //            holdFrequency[item] = 1;
+    //    }
+
+    //    // Order by frequency in descending order, then by element value in descending order
+    //    var result = holdFrequency
+    //        .OrderByDescending(x => x.Value)
+    //        .ThenByDescending(x => x.Key)
+    //        .Take(k)
+    //        .Select(x => x.Key)
+    //        .ToList();
+
+    //    //var result = holdFrequency
+    //    //    .OrderByDescending(x => x.Value)
+    //    //    .ThenByDescending(x => x.Key)
+    //    //    .Take(k);
+
+    //    return result;
+
+
+    //}
+
+    public static List<int> ElementFrequency2()
     //public static IEnumerable<KeyValuePair<int, int>> ElementFrequency(int[] arry, int k)
     {
         // Step 1: Count the frequency of each element using a dictionary
         var holdFrequency = new Dictionary<int, int>();
 
-        foreach (var item in arry)
+        // Input values
+        Console.Write("Enter the number of elements for the array: ");
+        int n = int.Parse(Console.ReadLine());
+        int[] nums = new int[n];
+
+        Console.WriteLine("Enter each element of the array");
+        for (int i = 0; i < n; i++)
+        {
+            nums[i] = int.Parse(Console.ReadLine());
+        }
+
+        Console.Write("Enter the value of the most frequent elements you want returned ");
+        int k = int.Parse(Console.ReadLine());
+
+
+        foreach (var item in nums)
         {
             if (holdFrequency.ContainsKey(item))
                 holdFrequency[item]++;
@@ -25,6 +190,13 @@ public class Program
             .Take(k)
             .Select(x => x.Key)
             .ToList();
+
+        //var result = holdFrequency
+        //    .OrderBy(x => x.Value)
+        //    .ThenBy(x => x.Key)
+        //    .Take(k)
+        //    .Select(x => x.Key)
+        //    .ToList();
 
         //var result = holdFrequency
         //    .OrderByDescending(x => x.Value)
@@ -49,7 +221,8 @@ public class Program
         {
             string word = Console.ReadLine();
             // Sort the characters in the word to get the anagram signature
-            string sortedWord = String.Concat(word.OrderBy(c => c));
+            //string sortedWord = String.Concat(word.OrderBy(c => c));
+            string sortedWord = new string(word.OrderBy(c => c).ToArray());
 
             // If this signature is already in the dictionary, add the word to its group
             if (!anagramGroups.ContainsKey(sortedWord))
@@ -289,7 +462,6 @@ public class Program
                 return Fibonacci(n - 1) + Fibonacci(n - 2);
         }
     }
-
     public static IEnumerable<int> GenerateFibonacciSequence(int count)
     {
         int previous = 0, current = 1;
@@ -387,14 +559,12 @@ public class Program
         }
         return array;
     }
-
     public static List<string> SwapStringArrayAsc2(string[] array)
     {
         //var list = array.ToList();
         //return list.OrderBy(x => x).ToList();
         return array.OrderBy(x => x).ToList();
     }
-
     public static string[] SwapStringArrayDsc(string[] array)
     {
         var limit = array.Length - 1;
@@ -416,7 +586,6 @@ public class Program
         }
         return array;
     }
-
     public static List<string> SwapStringArrayDsc2(string[] array)
     {
         //var list = array.ToList();
@@ -483,7 +652,6 @@ public class Program
         return firstStringList;
 
     }
-
     public static List<string> ReverseWordPositionInAString(string word)
     {
         //var stringToReverse = "I am using my hackerrank to improve my programming";
@@ -589,13 +757,13 @@ public class Program
     }
     public static string RemoveDuplicateCharacters2(string input)
     {
-        //string[] words = input.Split(' ');
-        //string result = string.Empty;
-        //string cleanedString = string.Empty;
-        //var groupedCharacters = input.GroupBy(c => c)
-        //                             .Where(g => g.Count() == 1)
-        //                             .Select(g => g.Key);
-        //var res = string.Concat(groupedCharacters);
+        string[] words = input.Split(' ');
+        string result = string.Empty;
+        string cleanedString = string.Empty;
+        var groupedCharacters = input.GroupBy(c => c)
+                                     .Where(g => g.Count() == 1)
+                                     .Select(g => g.Key);
+        var res = string.Concat(groupedCharacters);
 
         //res = res.Equals(input) ? "No duplicate found" : res;
 
@@ -646,32 +814,68 @@ public class Program
 
     public static void Main(string[] args)
     {
-        // Input values
-        Console.Write("Enter the number of elements: ");
-        int n = int.Parse(Console.ReadLine());
-        int[] nums = new int[n];
+        //var text = "hello world";
+        //var mstCommonCharacter = MostOcurrencesInArray(text);
+        //Console.WriteLine($"Most common character:{mstCommonCharacter}");
 
-        Console.WriteLine("Enter each element");
-        for (int i = 0; i < n; i++)
-        {
-            nums[i] = int.Parse(Console.ReadLine());
-        }
+        ////=======================================================================
+        int[] givenArray = { 1, 3, -5, 9, 11, 10, -4, 7, 13, -15 };
 
-        Console.Write("Enter the value of the most frequent elements you want returned ");
-        int k = int.Parse(Console.ReadLine());
+        //var res = RemoveNumbersGreaterOrEqualToOneInAListOfNumber(givenArray);
+        //foreach (var item in res)
+        //{
+        //    Console.WriteLine(item);
+        //}
 
-        // Get the top K frequent elements
-        var topFrequentElements = ElementFrequency(nums, k);
-        Console.WriteLine($"Top {k} frequent elements are:");
-        //topFrequentElements.ForEach(Console.WriteLine);
-        foreach (var element in topFrequentElements)
-        {
-            Console.WriteLine(element);
-            //Console.WriteLine($"Element: {element.Key}, Frequency: {element.Value}");
-        }
+        //var result = FindNumbersGreaterOrEqualToOneInAListOfNumber(givenArray);
+        //foreach (var item in result)
+        //{
+        //    Console.WriteLine(item);
+        //}
+
+        //var smallestNumber = FindSmallestNumber(givenArray);
+        //Console.WriteLine($"The smallest number is: {smallestNumber}");
+
+        //var greatestNumber = FindGreatestNumber(givenArray);
+        //Console.WriteLine($"The greatest number is: {greatestNumber}");
+
+        ////======================================================
+
+
+        //string inputData = "1123";
+        //getCombination(inputData);
+        //// Input values
+        //Console.Write("Enter the number of elements: ");
+        //int n = int.Parse(Console.ReadLine());
+        //int[] nums = new int[n];
+
+        //============================================================
+
+        //Console.WriteLine("Enter each element");
+        //for (int i = 0; i < n; i++)
+        //{
+        //    nums[i] = int.Parse(Console.ReadLine());
+        //}
+
+        //===================================================================
+
+        //Console.Write("Enter the value of the most frequent elements you want returned ");
+        //int k = int.Parse(Console.ReadLine());
+
+        //// Get the top K frequent elements
+        //var topFrequentElements = ElementFrequency(nums, k);
+        //Console.WriteLine($"Top {k} frequent elements are:");
+        ////topFrequentElements.ForEach(Console.WriteLine);
+
+        //var topFrequentElements = ElementFrequency2();
+        //foreach (var element in topFrequentElements)
+        //{
+        //    Console.WriteLine(element);
+        //    //Console.WriteLine($"Element: {element.Key}, Frequency: {element.Value}");
+        //}
 
         //======================================================
-        ////anagram solution
+        //anagram solution
         //var result = anagram();
         //// Output the result
         //foreach (var group in result)
@@ -983,8 +1187,67 @@ public class Program
     }
 }
 
+//Initialize the letterMap: Map numbers 1 to 26 to corresponding letters.
+//Find Combinations: Generate valid combinations of indices that can represent letters.
+//Convert Combinations to Letters: Convert each combination of numbers into letters and print them.
 
 
+//1st question
+//initialize a dictionary to hold the count of each element
+
+//enter value to hold number of element for the array
+
+//initialize the array with size of value entered above
+
+//create a loop to enter value of each element for the array
+
+//enter value for the number of most frequent numbers to output
+
+//calculate element frequencies
+
+// Order by frequency in descending order, then by element value in descending order
 
 
+//2nd question
 
+// Read the number of words to be entered
+
+// Dictionary to store sorted-word as key and the list of anagrams as values
+
+// create a loop and Read the words and grouping them by their sorted characters
+
+// Sort the characters in the word to get the anagram signature
+
+// check If this key is already in the dictionary, add the word to its key else intialize a new list
+
+// sort each group and sort the groups by the first word in each group
+
+
+//for (int i = 1; i <= 26; i++)
+//{
+//    letterMap[i] = (char)(i + 'a' - 1);
+//}
+
+//int StringLength = stringArray.Length;
+
+
+//// Iterate through the string and combine digits
+//for (int i = 0; i < StringLength; i++)
+//{
+//    for (int j = i + 1; j < StringLength; j++)
+//    {
+//        // Combine the two digits
+//        string combination = stringArray[i].ToString() + stringArray[j].ToString();
+//        if (int.TryParse(combination, out int number) && number <= 26)
+//        {
+//            validCombinations.Add(number);
+//        }
+//    }
+//}
+
+//foreach (var letter in stringArray)
+//{
+//    result += letterMap[int.Parse(letter)];
+//}
+
+//Console.WriteLine(result);
