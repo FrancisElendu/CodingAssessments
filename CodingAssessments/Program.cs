@@ -3,6 +3,29 @@
 
 public static class Program
 {
+    public static Dictionary<char, int> LeastOcurrencesInArray(string text)
+    {
+        var charCounts = new Dictionary<char, int>();
+        foreach (char c in text)
+        {
+
+            if (charCounts.ContainsKey(c))
+                charCounts[c]++;
+            else charCounts[c] = 1;
+        }
+
+        // Create a new dictionary with characters that appear only once
+        var singleOccurrenceChars = new Dictionary<char, int>();
+
+        foreach (var entry in charCounts)
+        {
+            if (entry.Value == 1)
+            {
+                singleOccurrenceChars.Add(entry.Key, entry.Value);
+            }
+        }
+        return singleOccurrenceChars;
+    }
     public static char MostOcurrencesInArray(string text)
     {
         var charCounts = new Dictionary<char, int>();
@@ -814,9 +837,20 @@ public static class Program
 
     public static void Main(string[] args)
     {
-        //var text = "hello world";
-        //var mstCommonCharacter = MostOcurrencesInArray(text);
-        //Console.WriteLine($"Most common character:{mstCommonCharacter}");
+        var text = "hello world";
+        //var mostCommonCharacter = MostOcurrencesInArray(text);
+        //Console.WriteLine($"Most common character:{mostCommonCharacter}");
+
+
+        var leastCommonCharacter = LeastOcurrencesInArray(text);
+
+        foreach (var kvp in leastCommonCharacter)
+        {
+            if (!(kvp.Key == '\0' || char.IsWhiteSpace(kvp.Key)))
+            {
+                Console.WriteLine($"Character: {kvp.Key}, occurs: {kvp.Value}");
+            }
+        }
 
         ////=======================================================================
         int[] givenArray = { 1, 3, -5, 9, 11, 10, -4, 7, 13, -15 };
