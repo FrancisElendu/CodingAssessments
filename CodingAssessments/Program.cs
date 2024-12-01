@@ -3,7 +3,7 @@
 
 public static class Program
 {
-    public static Dictionary<char, int> LeastOcurrencesInArray(string text)
+    public static Dictionary<char, int> ListOcurrencesInArray(string text)
     {
         var charCounts = new Dictionary<char, int>();
         foreach (char c in text)
@@ -49,6 +49,30 @@ public static class Program
         }
         return mostCommonChar;
     }
+
+    //public static char LeastOcurrencesInArray(string text)
+    //{
+    //    var charCounts = new Dictionary<char, int>();
+    //    foreach (char c in text)
+    //    {
+
+    //        if (charCounts.ContainsKey(c))
+    //            charCounts[c]++;
+    //        else charCounts[c] = 1;
+    //    }
+    //    char mostCommonChar = '\0';
+    //    int maxCount = 1;
+
+    //    foreach (var pair in charCounts)
+    //    {
+    //        if (pair.Value == maxCount)
+    //        {
+    //            maxCount = pair.Value;
+    //            mostCommonChar = pair.Key;
+    //        }
+    //    }
+    //    return mostCommonChar;
+    //}
     public static int[] RemoveNumbersGreaterOrEqualToOneInAListOfNumber(int[] numbers)
     {
         var numbersNotGreaterOrEqualToOneInAListOfNumber = numbers.Where(x => x < 1).ToArray();
@@ -841,10 +865,15 @@ public static class Program
         //var mostCommonCharacter = MostOcurrencesInArray(text);
         //Console.WriteLine($"Most common character:{mostCommonCharacter}");
 
+        //var leastCommonCharacter = LeastOcurrencesInArray(text);
+        //Console.WriteLine($"Least common character:{leastCommonCharacter}");
 
-        var leastCommonCharacter = LeastOcurrencesInArray(text);
 
-        foreach (var kvp in leastCommonCharacter)
+
+
+        var listOcurrences = ListOcurrencesInArray(text);
+
+        foreach (var kvp in listOcurrences)
         {
             if (!(kvp.Key == '\0' || char.IsWhiteSpace(kvp.Key)))
             {
