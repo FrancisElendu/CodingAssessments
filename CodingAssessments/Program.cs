@@ -3,6 +3,7 @@
 
 public static class Program
 {
+    //Working in progress
     public static Dictionary<char, int> ListOcurrencesInArray(string text)
     {
         var charCounts = new Dictionary<char, int>();
