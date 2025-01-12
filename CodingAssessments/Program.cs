@@ -3,6 +3,41 @@
 
 public static class Program
 {
+    //public static void GeneratePermutations(string str, int left, int right, HashSet<string> result)
+    //public static List<string> GeneratePermutations(string str)
+    public static void GeneratePermutations(string str)
+    {
+        var result = new HashSet<string>(); // To store unique permutations
+        Permute(str.ToCharArray(), 0, result);
+        var sortedResult = new List<string>(result);
+        sortedResult.Sort(); // Sort the results lexicographically
+        Console.WriteLine(string.Join(" ", sortedResult)); // Print permutations
+        //return sortedResult;
+
+        static void Permute(char[] arr, int start, HashSet<string> result)
+        {
+            if (start == arr.Length - 1)
+            {
+                result.Add(new string(arr)); // Add the permutation to the result set
+                return;
+            }
+
+            for (int i = start; i < arr.Length; i++)
+            {
+                Swap(arr, start, i); // Swap characters
+                Permute(arr, start + 1, result); // Recurse
+                Swap(arr, start, i); // Backtrack
+            }
+        }
+
+        // Utility function to swap characters in a string
+        static void Swap(char[] arr, int i, int j)
+        {
+            char temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+        }
+    }
     //Working in progress
     public static Dictionary<char, int> ListOcurrencesInArray(string text)
     {
@@ -862,28 +897,51 @@ public static class Program
 
     public static void Main(string[] args)
     {
-        var text = "hello world";
-        //var mostCommonCharacter = MostOcurrencesInArray(text);
-        //Console.WriteLine($"Most common character:{mostCommonCharacter}");
+        Console.WriteLine("Enter how many times you want to iterate:");
+        int T = int.Parse(Console.ReadLine()); // Read number of test cases
 
-        //var leastCommonCharacter = LeastOcurrencesInArray(text);
-        //Console.WriteLine($"Least common character:{leastCommonCharacter}");
-
-
-
-
-        var listOcurrences = ListOcurrencesInArray(text);
-
-        foreach (var kvp in listOcurrences)
+        while (T-- > 0)
         {
-            if (!(kvp.Key == '\0' || char.IsWhiteSpace(kvp.Key)))
-            {
-                Console.WriteLine($"Character: {kvp.Key}, occurs: {kvp.Value}");
-            }
+            Console.WriteLine("Enter String:");
+            string input = Console.ReadLine(); // Read the string for the current test case
+
+            //HashSet<string> result = new HashSet<string>();
+
+            // Generate all permutations
+            //GeneratePermutations(input, 0, input.Length - 1, result);
+            //var result =GeneratePermutations(input);
+            GeneratePermutations(input);
+
+            // Convert to a list and sort lexicographically
+            //List<string> sortedResult = new List<string>(result);
+            //sortedResult.Sort();
+
+            // Output the result as a space-separated string
+            //Console.WriteLine(string.Join(" ", result));
         }
 
+        //var text = "hello world";
+        ////var mostCommonCharacter = MostOcurrencesInArray(text);
+        ////Console.WriteLine($"Most common character:{mostCommonCharacter}");
+
+        ////var leastCommonCharacter = LeastOcurrencesInArray(text);
+        ////Console.WriteLine($"Least common character:{leastCommonCharacter}");
+
+
+
+
+        //var listOcurrences = ListOcurrencesInArray(text);
+
+        //foreach (var kvp in listOcurrences)
+        //{
+        //    if (!(kvp.Key == '\0' || char.IsWhiteSpace(kvp.Key)))
+        //    {
+        //        Console.WriteLine($"Character: {kvp.Key}, occurs: {kvp.Value}");
+        //    }
+        //}
+
         ////=======================================================================
-        int[] givenArray = { 1, 3, -5, 9, 11, 10, -4, 7, 13, -15 };
+        //int[] givenArray = { 1, 3, -5, 9, 11, 10, -4, 7, 13, -15 };
 
         //var res = RemoveNumbersGreaterOrEqualToOneInAListOfNumber(givenArray);
         //foreach (var item in res)
