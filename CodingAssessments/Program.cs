@@ -85,7 +85,6 @@ public static class Program
         }
         return mostCommonChar;
     }
-
     //public static char LeastOcurrencesInArray(string text)
     //{
     //    var charCounts = new Dictionary<char, int>();
@@ -204,7 +203,6 @@ public static class Program
             }
         }
     }
-
     //public static List<int> ElementFrequency(int[] arry, int k)
     ////public static IEnumerable<KeyValuePair<int, int>> ElementFrequency(int[] arry, int k)
     //{
@@ -236,7 +234,6 @@ public static class Program
 
 
     //}
-
     public static List<int> ElementFrequency2()
     //public static IEnumerable<KeyValuePair<int, int>> ElementFrequency(int[] arry, int k)
     {
