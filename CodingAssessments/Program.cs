@@ -38,8 +38,70 @@ public static class Program
             arr[j] = temp;
         }
     }
+
+    public static string[] FizzBuzz(int n)
+    {
+        // Create a dictionary to store the conditions and their corresponding outputs
+        Dictionary<int, string> fizzBuzzDict = new Dictionary<int, string>
+        {
+            { 3, "Fizz" },
+            { 5, "Buzz" }
+        };
+
+        // Create array to store the results
+        string[] answer2 = new string[n];
+
+        for (int i = 1; i <= n; i++)
+        {
+            string result = "";
+
+            // Check each condition in the dictionary
+            foreach (var kvp in fizzBuzzDict)
+            {
+                if (i % kvp.Key == 0)
+                {
+                    result += kvp.Value;
+                }
+            }
+
+            // If no condition matched, store the number itself
+            answer2[i - 1] = string.IsNullOrEmpty(result) ? i.ToString() : result;
+        }
+
+        return answer2;
+    }
+
+    public static string[] FizzBuzz2(int n)
+    {
+        ////create array to store the results
+
+        string[] answer = new string[n];
+        for (int i = 1; i <= n; i++)
+        {
+            if (i % 3 == 0 && i % 5 == 0)
+            {
+                answer[i - 1] = "FizzBuzz";
+            }
+            else if (i % 3 == 0)
+            {
+                answer[i - 1] = "Fizz";
+            }
+            else if (i % 5 == 0)
+            {
+                answer[i - 1] = "Buzz";
+            }
+            else
+            {
+                answer[i - 1] = i.ToString();
+            }
+        }
+
+        return answer;
+    }
+
+
     //Working in progress
-    public static Dictionary<char, int> ListOcurrencesInArray(string text)
+    public static IReadOnlyDictionary<char, int> ListOcurrencesInArray(string text)
     {
         var charCounts = new Dictionary<char, int>();
         foreach (char c in text)
@@ -62,29 +124,55 @@ public static class Program
         }
         return singleOccurrenceChars;
     }
-    public static char MostOcurrencesInArray(string text)
+
+    public static IReadOnlyDictionary<char, int> FindUniqueCharacters(string text)
     {
-        var charCounts = new Dictionary<char, int>();
-        foreach (char c in text)
-        {
+        ArgumentNullException.ThrowIfNull(text);
 
-            if (charCounts.ContainsKey(c))
-                charCounts[c]++;
-            else charCounts[c] = 1;
-        }
-        char mostCommonChar = '\0';
-        int maxCount = 0;
+        if (text.Length == 0)
+            return new Dictionary<char, int>();
 
-        foreach (var pair in charCounts)
-        {
-            if (pair.Value > maxCount)
-            {
-                maxCount = pair.Value;
-                mostCommonChar = pair.Key;
-            }
-        }
-        return mostCommonChar;
+        return text.GroupBy(c => c)
+                   .Where(g => g.Count() == 1)
+                   .ToDictionary(g => g.Key, g => g.Count());
     }
+
+    public static IReadOnlyDictionary<char, int> MostOcurrencesInArray(string text)
+    {
+        ArgumentNullException.ThrowIfNull(text);
+
+        if (text.Length == 0)
+            return new Dictionary<char, int>();
+
+        return text.GroupBy(c => c)
+                   .Where(g => g.Count() > 1)
+                   .ToDictionary(g => g.Key, g => g.Count());
+    }
+    //public static char MostOcurrencesInArray(string text)
+    //{
+    //    var charCounts = new Dictionary<char, int>();
+    //    foreach (char c in text)
+    //    {
+
+    //        if (charCounts.ContainsKey(c))
+    //            charCounts[c]++;
+    //        else charCounts[c] = 1;
+    //    }
+    //    char mostCommonChar = '\0';
+    //    int maxCount = 0;
+
+    //    foreach (var pair in charCounts)
+    //    {
+    //        if (pair.Value > maxCount)
+    //        {
+    //            maxCount = pair.Value;
+    //            mostCommonChar = pair.Key;
+    //        }
+    //    }
+    //    return mostCommonChar;
+    //}
+
+
     //public static char LeastOcurrencesInArray(string text)
     //{
     //    var charCounts = new Dictionary<char, int>();
@@ -121,27 +209,31 @@ public static class Program
     }
     public static int FindSmallestNumber(int[] arry)
     {
-        var smallestNumber = arry[0];
-        foreach (var number in arry)
-        {
-            if (number < smallestNumber)
-            {
-                smallestNumber = number;
-            }
-        }
-        return smallestNumber;
+        //var smallestNumber = arry[0];
+        //foreach (var number in arry)
+        //{
+        //    if (number < smallestNumber)
+        //    {
+        //        smallestNumber = number;
+        //    }
+        //}
+        //return smallestNumber;
+        return arry.OrderBy(x => x).First();
     }
     public static int FindGreatestNumber(int[] arry)
     {
-        var smallestNumber = arry[0];
-        foreach (var number in arry)
-        {
-            if (number > smallestNumber)
-            {
-                smallestNumber = number;
-            }
-        }
-        return smallestNumber;
+
+        //var smallestNumber = arry[0];
+        //foreach (var number in arry)
+        //{
+        //    if (number > smallestNumber)
+        //    {
+        //        smallestNumber = number;
+        //    }
+        //}
+        //return smallestNumber;
+        return arry.OrderByDescending(x => x).First();
+        
     }
     public static void getCombination(string inputValue)
     {
@@ -388,23 +480,25 @@ public static class Program
     {
         // { 1, 5, 3, 4, 2 };
         //int k = 2;
-        int modulos = 1000000007;
+        //int modulos = 1000000007;
         //HashSet<int> numSet = new HashSet<int>(arr);
         //List<int> list = new List<int>();
-        List<int> list = arr.ToList();
+        //List<int> list = arr.ToList();
         //list.AddRange(arr);
+        
 
         int count = 0;
         foreach (int item in arr)
         {
-            if (list.Contains(item - k))
+            //if (list.Contains(item - k))
+            if (arr.Contains(item - k))
             //if (numSet.Contains(item - k))
             {
                 count++;
             }
         }
-        return count % modulos;
-        //return count;
+        return count;
+        //return count% modulos;
     }
     public static int CompareVersion(string version1, string version2)
     {
@@ -431,62 +525,7 @@ public static class Program
         }
         return 0;
     }
-    public static string[] FizzBuzz(int n)
-    {
-        ////create array to store the results
 
-        //string[] answer = new string[n];
-        //for (int i = 1;i <= n;i++)
-        //{
-        //    if(i % 3 == 0 && i % 5 == 0)
-        //    {
-        //        answer[i - 1] = "FizzBuzz";
-        //    }
-        //    else if(i % 3 == 0 )
-        //    {
-        //        answer[i - 1] = "Fizz";
-        //    }
-        //    else if (i % 5 == 0)
-        //    {
-        //        answer[i - 1] = "Buzz";
-        //    }
-        //    else
-        //    {
-        //        answer[i-1] = i.ToString();
-        //    }
-        //}
-
-        //return answer;
-
-        // Create a dictionary to store the conditions and their corresponding outputs
-        Dictionary<int, string> fizzBuzzDict = new Dictionary<int, string>
-        {
-            { 3, "Fizz" },
-            { 5, "Buzz" }
-        };
-
-        // Create array to store the results
-        string[] answer2 = new string[n];
-
-        for (int i = 1; i <= n; i++)
-        {
-            string result = "";
-
-            // Check each condition in the dictionary
-            foreach (var kvp in fizzBuzzDict)
-            {
-                if (i % kvp.Key == 0)
-                {
-                    result += kvp.Value;
-                }
-            }
-
-            // If no condition matched, store the number itself
-            answer2[i - 1] = string.IsNullOrEmpty(result) ? i.ToString() : result;
-        }
-
-        return answer2;
-    }
     public static List<int> FibonacciSeries(int input)
     {
         int firstNumber = 0;
@@ -681,10 +720,7 @@ public static class Program
             {
                 if (array[i] > array[i + 1])
                 {
-                    //string temp = array[j];
-                    //array[j] = array[j + 1];
-                    //array[j + 1] = temp;
-                    (array[j], array[j + 1]) = (array[j + 1], array[j]);
+                    (array[i], array[i + 1]) = (array[i + 1], array[i]);
                 }
             }
         }
@@ -702,7 +738,7 @@ public static class Program
                     //string temp = array[j];
                     //array[j] = array[j + 1];
                     //array[j + 1] = temp;
-                    (array[j], array[j + 1]) = (array[j + 1], array[j]);
+                    (array[i], array[i + 1]) = (array[i + 1], array[i]);
                 }
             }
         }
@@ -779,7 +815,7 @@ public static class Program
         //}
         //return reversedResult;
     }
-    public static string ReverseAString(string word)
+    public static string ReverseAString2(string word)
     {
         string result = string.Empty;
         if (word != null)
@@ -790,6 +826,20 @@ public static class Program
             }
         }
         return result;
+    }
+
+    public static string ReverseAString(string word)
+    {
+        if (string.IsNullOrEmpty(word))
+            return string.Empty;
+
+        var stack = new Stack<char>();
+        foreach (char c in word)
+        {
+            stack.Push(c);
+        }
+
+        return string.Concat(stack);
     }
     public static List<MyStore> GetMyStoreList()
     {
@@ -894,32 +944,39 @@ public static class Program
 
     public static void Main(string[] args)
     {
-        Console.WriteLine("Enter how many times you want to iterate:");
-        int T = int.Parse(Console.ReadLine()); // Read number of test cases
+        //Console.WriteLine("Enter how many times you want to iterate:");
+        //int T = int.Parse(Console.ReadLine()); // Read number of test cases
 
-        while (T-- > 0)
-        {
-            Console.WriteLine("Enter String:");
-            string input = Console.ReadLine(); // Read the string for the current test case
+        //while (T-- > 0)
+        //{
+        //    Console.WriteLine("Enter String:");
+        //    string input = Console.ReadLine(); // Read the string for the current test case
 
-            //HashSet<string> result = new HashSet<string>();
+        //    //HashSet<string> result = new HashSet<string>();
 
-            // Generate all permutations
-            //GeneratePermutations(input, 0, input.Length - 1, result);
-            //var result =GeneratePermutations(input);
-            GeneratePermutations(input);
+        //    // Generate all permutations
+        //    //GeneratePermutations(input, 0, input.Length - 1, result);
+        //    //var result =GeneratePermutations(input);
+        //    GeneratePermutations(input);
 
-            // Convert to a list and sort lexicographically
-            //List<string> sortedResult = new List<string>(result);
-            //sortedResult.Sort();
+        //    // Convert to a list and sort lexicographically
+        //    //List<string> sortedResult = new List<string>(result);
+        //    //sortedResult.Sort();
 
-            // Output the result as a space-separated string
-            //Console.WriteLine(string.Join(" ", result));
-        }
+        //    // Output the result as a space-separated string
+        //    //Console.WriteLine(string.Join(" ", result));
+        //}
 
         //var text = "hello world";
-        ////var mostCommonCharacter = MostOcurrencesInArray(text);
+        //var mostCommonCharacter = MostOcurrencesInArray(text);
         ////Console.WriteLine($"Most common character:{mostCommonCharacter}");
+        //foreach (var kvp in mostCommonCharacter)
+        //{
+        //    if (!(kvp.Key == '\0' || char.IsWhiteSpace(kvp.Key)))
+        //    {
+        //        Console.WriteLine($"Character: {kvp.Key}, occurs: {kvp.Value}");
+        //    }
+        //}
 
         ////var leastCommonCharacter = LeastOcurrencesInArray(text);
         ////Console.WriteLine($"Least common character:{leastCommonCharacter}");
@@ -928,6 +985,7 @@ public static class Program
 
 
         //var listOcurrences = ListOcurrencesInArray(text);
+        //var listOcurrences = FindUniqueCharacters(text);
 
         //foreach (var kvp in listOcurrences)
         //{
@@ -1109,10 +1167,10 @@ public static class Program
         //    Console.Write($"{item} ");
         //}
         //-----------------------------------------------------
-        //int[] arr = { 1, 5, 3, 4, 2 };
-        //int k = 2;
-        //var result = CountPairsWithDifferenceK(arr, k);
-        //Console.WriteLine(result);
+        int[] arr = { 1, 5, 3, 4, 2 };
+        int k = 2;
+        var result = CountPairsWithDifferenceK(arr, k);
+        Console.WriteLine(result);
 
         //-----------------------------------------------------
         //var primeNumbers = PrimeNumberList(1, 10);
