@@ -1,4 +1,5 @@
 ﻿using CodingAssessments;
+using System.Text;
 
 
 public static class Program
@@ -41,34 +42,71 @@ public static class Program
 
     public static string[] FizzBuzz(int n)
     {
-        // Create a dictionary to store the conditions and their corresponding outputs
-        Dictionary<int, string> fizzBuzzDict = new Dictionary<int, string>
+        if (n <= 0)
+            throw new ArgumentOutOfRangeException(nameof(n), "n must be greater than zero.");
+
+        #region Old Solution
+        //// Create a dictionary to store the conditions and their corresponding outputs
+        //Dictionary<int, string> fizzBuzzDict = new Dictionary<int, string>
+        //{
+        //    { 3, "Fizz" },
+        //    { 5, "Buzz" }
+        //};
+
+        //// Create array to store the results
+        //string[] answer2 = new string[n];
+
+        //for (int i = 1; i <= n; i++)
+        //{
+        //    string result = "";
+
+        //    // Check each condition in the dictionary
+        //    foreach (var kvp in fizzBuzzDict)
+        //    {
+        //        if (i % kvp.Key == 0)
+        //        {
+        //            result += kvp.Value;
+        //        }
+        //    }
+
+        //    // If no condition matched, store the number itself
+        //    answer2[i - 1] = string.IsNullOrEmpty(result) ? i.ToString() : result;
+        //}
+
+        //return answer2;
+        #endregion
+
+
+        #region new Solution
+
+        var rules = new (int Divisor, string Text)[]
         {
-            { 3, "Fizz" },
-            { 5, "Buzz" }
+            (3, "Fizz"),
+            (5, "Buzz")
         };
 
-        // Create array to store the results
-        string[] answer2 = new string[n];
+        var results = new string[n];
 
         for (int i = 1; i <= n; i++)
         {
-            string result = "";
+            var sb = new StringBuilder();
 
-            // Check each condition in the dictionary
-            foreach (var kvp in fizzBuzzDict)
+            foreach (var rule in rules)
             {
-                if (i % kvp.Key == 0)
+                if (i % rule.Divisor == 0)
                 {
-                    result += kvp.Value;
+                    sb.Append(rule.Text);
                 }
             }
 
-            // If no condition matched, store the number itself
-            answer2[i - 1] = string.IsNullOrEmpty(result) ? i.ToString() : result;
+            results[i - 1] = sb.Length > 0
+                ? sb.ToString()
+                : i.ToString();
         }
 
-        return answer2;
+        return results;
+
+        #endregion
     }
 
     public static string[] FizzBuzz2(int n)
@@ -103,33 +141,26 @@ public static class Program
     //Working in progress
     public static IReadOnlyDictionary<char, int> ListOcurrencesInArray(string text)
     {
+        if (string.IsNullOrWhiteSpace(text))
+            return new Dictionary<char, int>();
+
         var charCounts = new Dictionary<char, int>();
         foreach (char c in text)
         {
-
-            if (charCounts.ContainsKey(c))
-                charCounts[c]++;
-            else charCounts[c] = 1;
-        }
-
-        // Create a new dictionary with characters that appear only once
-        var singleOccurrenceChars = new Dictionary<char, int>();
-
-        foreach (var entry in charCounts)
-        {
-            if (entry.Value == 1)
+            if (!charCounts.TryAdd(c, 1))
             {
-                singleOccurrenceChars.Add(entry.Key, entry.Value);
+                charCounts[c]++;
             }
         }
-        return singleOccurrenceChars;
+
+        return charCounts;
     }
 
     public static IReadOnlyDictionary<char, int> FindUniqueCharacters(string text)
     {
-        ArgumentNullException.ThrowIfNull(text);
+        //ArgumentNullException.ThrowIfNull(text);
 
-        if (text.Length == 0)
+        if(string.IsNullOrWhiteSpace(text))
             return new Dictionary<char, int>();
 
         return text.GroupBy(c => c)
@@ -987,6 +1018,11 @@ public static class Program
         //var listOcurrences = ListOcurrencesInArray(text);
         //var listOcurrences = FindUniqueCharacters(text);
 
+        //foreach (var (character, count) in listOcurrences)
+        //{
+        //    Console.WriteLine($"'{character}' -> {count}");
+        //}
+
         //foreach (var kvp in listOcurrences)
         //{
         //    if (!(kvp.Key == '\0' || char.IsWhiteSpace(kvp.Key)))
@@ -1167,10 +1203,10 @@ public static class Program
         //    Console.Write($"{item} ");
         //}
         //-----------------------------------------------------
-        int[] arr = { 1, 5, 3, 4, 2 };
-        int k = 2;
-        var result = CountPairsWithDifferenceK(arr, k);
-        Console.WriteLine(result);
+        //int[] arr = { 1, 5, 3, 4, 2 };
+        //int k = 2;
+        //var result = CountPairsWithDifferenceK(arr, k);
+        //Console.WriteLine(result);
 
         //-----------------------------------------------------
         //var primeNumbers = PrimeNumberList(1, 10);
@@ -1299,13 +1335,13 @@ public static class Program
         //Console.WriteLine($"Comparison result = {result}"  );
         //-----------------------------------------------------
 
-        //int n = 15;
-        //string[] FizzBuzzResult = FizzBuzz(n);
+        int n = 15;
+        string[] FizzBuzzResult = FizzBuzz(n);
 
-        //foreach (string item in FizzBuzzResult)
-        //{
-        //    Console.WriteLine($"FizzBuzz result : {item}");
-        //}
+        foreach (string item in FizzBuzzResult)
+        {
+            Console.WriteLine($"FizzBuzz result : {item}");
+        }
         //-----------------------------------------------------
 
         //var fibonacciSeries = FibonacciSeries(7);
